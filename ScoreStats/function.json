@@ -1,0 +1,19 @@
+﻿{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "statToScore",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "statstoscore",
+      "connection": "AzureWebJobsDashboard"
+    },
+    {
+      "name": "scoredStats",
+      "type": "table",
+      "connection": "AzureWebJobsDashboard",
+      "tableName": "scoredStats",
+      "direction": "out"
+    }
+  ]
+}
