@@ -2,6 +2,7 @@
 #r "Microsoft.WindowsAzure.Storage"
 using System;
 using System.Collections;
+using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -33,8 +34,19 @@ public static void Run(ScoredStat scoredStat, CloudTable seasonStatsByPlayer, Tr
     }
     else
     {
-        TableOperation updateOperation = TableOperation.Replace(original);
-        seasonStatsByPlayer.Execute(updateOperation);
+        try
+        {
+            TableOperation updateOperation = TableOperation.Replace(original);
+            seasonStatsByPlayer.Execute(updateOperation);
+        }
+        catch (StorageException ex)
+        {
+            if (ex.RequestInformation.HttpStatusCode == (int)HttpStatusCode.PreconditionFailed)
+            {
+                log.Info("Optimistic locking failure");
+                throw new Exception("Failed optimisting locking");
+            }
+        }
     }
 }
 
