@@ -106,7 +106,6 @@ public class ScoredStat : TableEntity
     [JsonIgnore]
     public Stat Stat => new Stat
         {
-            Round = Round,
             Forward = Forward,
             Midfield = Midfield,
             Ruck = Ruck,
@@ -116,7 +115,6 @@ public class ScoredStat : TableEntity
 
 public class Stat
 {
-    public Round Round { get; set; }
     [JsonProperty("f")]
     public int Forward { get; set; }
     [JsonProperty("m")]
